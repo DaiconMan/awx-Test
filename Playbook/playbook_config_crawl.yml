@@ -22,10 +22,10 @@
      local_action:
       module: template
       src: conf.j2
-      dest: "./backup/{{ inventory_hostname }}.log"
+      dest: "{{ config_path }}/{{ inventory_hostname }}.log"
 
    - name: parse config
-     local_action: shell cat ./backup/{{ inventory_hostname }}.log | sed -e 's/        \"//g' | sed -e 's/",//g' | sed -e 's/"//g' | sed -e "1,2d" | sed -e '$d' | sed -e '$d' > ./backup/{{ inventory_hostname }}.conf
+     local_action: shell cat {{ config_path }}/{{ inventory_hostname }}.log | sed -e 's/        \"//g' | sed -e 's/",//g' | sed -e 's/"//g' | sed -e "1,2d" | sed -e '$d' | sed -e '$d' > {{ config_path }}/{{ inventory_hostname }}.conf
 
    - name: remove logfile
-     local_action: file path=./backup/{{ inventory_hostname }}.log state=absent
+     local_action: file path={{ config_path }}/{{ inventory_hostname }}.log state=absent
